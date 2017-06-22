@@ -2,9 +2,9 @@
   "name": "status-patrol",
   "version": "1.0.0",
   "description": "Node app for aggregating and alerting on the status of external APIs.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

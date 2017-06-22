@@ -35,11 +35,30 @@ app.get('/', function (req, res) {
         }
       }, function (error, response, body) {
         var fbStatus = JSON.parse(response.body);
-        schema.facebook.status = (fbStatus.current.health || 0 );
-        schema.facebook.response = (fbStatus || null )
+        schema.social_networks.facebook.status = (fbStatus.current.health || 0 );
+        schema.social_networks.facebook.response = (fbStatus || null )
         console.log(fbStatus);
         callback(null, fbStatus);
       });
+  	},
+		function(fbStatus, callback) {
+
+      request({
+        uri: 'https://status.github.com/api/status.json',
+        method: 'GET',
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36'
+        }
+      }, function (error, response, body) {
+        var githubStatus = JSON.parse(response.body);
+				console.log('githubStatus', githubStatus);
+        schema.platforms.github.status = (githubStatus.status === 'good') ? 1 : 0;
+        schema.platforms.github.response = (githubStatus || null )
+
+        //callback(null, githubStatus);
+				callback(null, 'githubStatus');
+      });
+
   	}
   ], function (err, result) {
       res.json( schema );
